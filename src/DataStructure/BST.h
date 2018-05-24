@@ -46,11 +46,10 @@ static BinNodePosi(T) removeAt(BinNodePosi(T)& x, BinNodePosi(T)& hot) {
     BinNodePosi(T) succ = nullptr;//实际被删除节点的接替者
     if (!HasLChild(*x)) {
         succ = x = x->rc;//若没有左孩子，则x的后继为其右孩子,x替换为右孩子
-    }
-    else if (!HasRChild(*x)) {
+    } else if (!HasRChild(*x)) {
         succ = x = x->lc;//若没有右孩子，则x的后继为其左孩子,x替换为左孩子
     } else {//若左右子树均存在，则选择x的直接后继作为实际被摘除节点
-        w = w->succ();
+        w = w->succ();//此时x的后继w必定在x的右子树中，且没有左孩子
         std::swap(x->data, w->data);
         BinNodePosi(T) u = w->parent;
         ((u == x) ? u->rc : u->lc) = succ = w->rc;//隔离节点w

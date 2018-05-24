@@ -19,6 +19,9 @@
     <Filter Include="BST">
       <UniqueIdentifier>{8de068fd-a5df-4618-9be1-ad0c4c3ff4ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graph">
+      <UniqueIdentifier>{b16bea53-fe65-4112-b4e8-60385b4d53fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinNode.h">
@@ -33,14 +36,17 @@
     <ClInclude Include="BST.h">
       <Filter>BST</Filter>
     </ClInclude>
-    <ClInclude Include="AVL.h">
-      <Filter>BinTree</Filter>
-    </ClInclude>
     <ClInclude Include="Splay.h">
-      <Filter>BinTree</Filter>
+      <Filter>BST</Filter>
     </ClInclude>
     <ClInclude Include="RedBlack.h">
-      <Filter>BinTree</Filter>
+      <Filter>BST</Filter>
+    </ClInclude>
+    <ClInclude Include="AVL.h">
+      <Filter>BST</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph.h">
+      <Filter>Graph</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

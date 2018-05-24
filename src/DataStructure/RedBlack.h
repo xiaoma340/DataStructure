@@ -40,7 +40,23 @@ BinNodePosi(T) RedBlack<T>::insert(const T& e) {
 }
 template <typename T>
 bool RedBlack<T>::remove(const T& e) {
-
+    BinNodePosi(T)& x = search(e);
+    if (!x) return false;//确认目标存在
+    BinNodePosi(T) r = removeAt(x, _hot);//r为被删除节点的后继，_hot为r的父亲
+    if (!(--_size)) return false;//实施删除，树变空则返回
+    if (!_hot) {//若刚删除的是根节点，则将根节点置黑，并更新高度
+        _root->color = RB_BLACK;
+        updateHeight(_root);
+        return true;
+    }
+    if (BlackHeightUpdated(*_hot)) return true;//若所有祖先黑深度依然平衡，则无需调整
+    if (IsRed(r)) {//若r为红，则只需要令其转黑
+        r->color = RB_BLACK;
+        r->height++;
+        return true;
+    }
+    solveDoubleBlack(r);
+    return true;
 }
 
 template <typename T>
@@ -75,9 +91,45 @@ void RedBlack<T>::solveDoubleRed(BinNodePosi(T) x) {
 }
 
 template <typename T>
-void RedBlack<T>::solveDoubleBlack(BinNodePosi(T) x)
-{
-
+void RedBlack<T>::solveDoubleBlack(BinNodePosi(T) x) {
+    BinNodePosi(T) p = r ? r->parent : _hot;
+    if (!p) return;
+    BinNodePosi(T) s = (r == p->lc) ? p->rc : p->lc;//r的兄弟
+    if (IsBlack(s)) {
+        BinNodePosi(T) t = nullptr;
+        if (IsRed(s->rc)) t = s->rc;
+        if (IsRed(s->lc)) t = s->lc;
+        if (t) {
+            RBColor oldColor = p->color;
+            BinNodePosi(T) b = FromParentTo(*p) = rotateAt(t);
+            if (HasLChild(*b)) {
+                b->lc->color = RB_BLACK;
+                updateHeight(b->lc);
+            }
+            if (HasRChild(*b)) {
+                b->rc->color = RB_BLACK;
+                updateHeight(b->rc);
+            }
+            b->color = oldColor;
+            updateHeight(b);
+        } else {
+            s->color = RB_RED;
+            s->height--;
+            if (IsRed(p)) {
+                p->color = RB_BLACK;
+            } else {
+                p->height--;
+                solveDoubleBlack(p);
+            }
+        }
+    } else {
+        s->color = RB_BLACK;
+        p->color = RB_RED;
+        BinNodePosi(T) t = IsLChild(*s) ? s->lc : s->rc;
+        _hot = p;
+        FromParentTo(*p) = rotateAt(t);
+        solveDoubleBlack(r);
+    }
 }
 
 template <typename T>

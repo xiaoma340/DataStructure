@@ -120,6 +120,7 @@
     <ClInclude Include="BinTree.h" />
     <ClInclude Include="BST.h" />
     <ClInclude Include="Entry.h" />
+    <ClInclude Include="Graph.h" />
     <ClInclude Include="RedBlack.h" />
     <ClInclude Include="Splay.h" />
   </ItemGroup>

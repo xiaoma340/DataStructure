@@ -76,8 +76,7 @@ BinNode<T>::succ() {
     if (rc) {
         s = rc;
         while (HasLChild(*s))s = s->lc;
-    }
-    else {
+    } else {
         while (IsRChild(*s)) s = s->parent;
         s = s->parent;
     }
